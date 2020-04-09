@@ -105,7 +105,7 @@ void urn_time_millis_string(char *seconds, char *millis, long long time) {
 }
 
 void urn_split_string(char *string, long long time) {
-    urn_time_string_format(string, NULL, time, 0, 0, 1);
+    urn_time_string_serialized(string, time);
 }
 
 void urn_delta_string(char *string, long long time) {
