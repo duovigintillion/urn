@@ -71,18 +71,18 @@ static void pb_draw(UrnComponent *self_, urn_game *game,
     remove_class(self->personal_best, "time");
     gtk_label_set_text(GTK_LABEL(self->personal_best), "-");
     if (timer->curr_split == game->split_count
-        && timer->split_times[game->split_count - 1]
-        && (!game->split_times[game->split_count - 1]
-            || (timer->split_times[game->split_count - 1]
-                < game->split_times[game->split_count - 1]))) {
+        && timer->best_splits[game->split_count - 1]
+        && (!game->best_splits[game->split_count - 1]
+            || (timer->best_splits[game->split_count - 1]
+                < game->best_splits[game->split_count - 1]))) {
         add_class(self->personal_best, "time");
         urn_time_string(
-            str, timer->split_times[game->split_count - 1]);
+            str, timer->best_splits[game->split_count - 1]);
         gtk_label_set_text(GTK_LABEL(self->personal_best), str);
-    } else if (game->split_times[game->split_count - 1]) {
+    } else if (game->best_splits[game->split_count - 1]) {
         add_class(self->personal_best, "time");
         urn_time_string(
-            str, game->split_times[game->split_count - 1]);
+            str, game->best_splits[game->split_count - 1]);
         gtk_label_set_text(GTK_LABEL(self->personal_best), str);
     }
 }
