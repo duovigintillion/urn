@@ -397,6 +397,26 @@ int urn_game_save(const urn_game *game) {
     return error;
 }
 
+
+int urn_is_timer_better(urn_game *game, urn_timer *timer) {
+    int i = game->split_count - 1;
+    /* find the latest split with a time */
+    while (i >= 0) {
+        if (timer->split_times[i] != 0ll || game->split_times[i] != 0ll)
+            break;
+        i--;
+    }
+    if (i < 0)
+        return 1;
+    if (timer->split_times[i] == 0ll)
+        return 0;
+    if (game->split_times[i] == 0ll)
+        return 1;
+    return timer->split_times[i] < game->split_times[i];
+}
+
+
+
 void urn_timer_release(urn_timer *timer) {
     if (timer->split_times) {
         free(timer->split_times);
@@ -549,8 +569,7 @@ void urn_timer_step(urn_timer *timer, long long now) {
             }
             // check for losing time
             if (timer->curr_split) {
-                if (timer->split_deltas[timer->curr_split]
-                    > timer->split_deltas[timer->curr_split - 1]) {
+                if (timer->segment_deltas[timer->curr_split] > 0) {
                     timer->split_info[timer->curr_split]
                         |= URN_INFO_LOSING_TIME;
                 } else {
@@ -646,7 +665,20 @@ int urn_timer_unsplit(urn_timer *timer) {
             timer->split_deltas[i] = 0;
             timer->split_info[i] = 0;
             timer->segment_times[i] = timer->game->segment_times[i];
+            timer->best_splits[i] = timer->game->best_splits[i];
+            timer->best_segments[i] = timer->game->best_segments[i];
             timer->segment_deltas[i] = 0;
+        }
+        timer->sum_of_bests = 0;
+        for (i = 0; i < timer->game->split_count; ++i) {
+          if (timer->best_segments[i]) {
+            timer->sum_of_bests += timer->best_segments[i];
+          } else if (timer->game->best_segments[i]) {
+            timer->sum_of_bests += timer->game->best_segments[i];
+          } else {
+            timer->sum_of_bests = 0;
+            break;
+          }
         }
         if (timer->curr_split + 1 == timer->game->split_count) {
             timer->running = 1;
