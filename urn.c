@@ -215,6 +215,17 @@ int urn_game_create(urn_game **game_ptr, const char *path) {
     if (ref) {
         game->height = json_integer_value(ref);
     }
+    // get pos.x
+    ref = json_object_get(json, "pos_x");
+    if (ref) {
+        game->window_pos_x = json_integer_value(ref);
+    }
+    // get pos.y
+    ref = json_object_get(json, "pos_y");
+    if (ref) {
+        game->window_pos_y = json_integer_value(ref);
+    }
+
     // get delay
     ref = json_object_get(json, "start_delay");
     if (ref) {

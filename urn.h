@@ -14,6 +14,8 @@ struct urn_game {
     int attempt_count;
     int width;
     int height;
+    int window_pos_x;
+    int window_pos_y;
     long long world_record;
     long long start_delay;
     char **split_titles;

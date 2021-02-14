@@ -171,6 +171,9 @@ static void urn_app_window_show_game(UrnAppWindow *win) {
     char str[256];
     GList *l;
 
+    //set window position
+    gtk_window_move(GTK_WINDOW(win), win->game->window_pos_x, win->game->window_pos_y);
+
     // set dimensions
     if (win->game->width > 0 && win->game->height > 0) {
         gtk_widget_set_size_request(GTK_WIDGET(win),
@@ -222,6 +225,7 @@ static gboolean urn_app_window_resize(GtkWidget *widget,
                                       gpointer data) {
     UrnAppWindow *win = (UrnAppWindow*)widget;
     resize_window(win, event->configure.width, event->configure.height);
+    
     return FALSE;
 }
 
