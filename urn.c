@@ -400,6 +400,12 @@ int urn_game_save(const urn_game *game) {
     if (game->height) {
         json_object_set_new(json, "height", json_integer(game->height));
     }
+    if (game->window_pos_x) {
+        json_object_set_new(json, "pos_x", json_integer(game->window_pos_x));
+    }
+    if (game->window_pos_y) {
+        json_object_set_new(json, "pos_y", json_integer(game->window_pos_y));
+    }
     if (!json_dump_file(json, game->path,
                         JSON_PRESERVE_ORDER | JSON_INDENT(2))) {
         error = 1;
