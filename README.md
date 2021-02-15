@@ -89,6 +89,8 @@ The color of a time or delta has special meaning.
 | theme_variant | Window theme variant                  |
 | width         | Window width                          |
 | height        | Window height                         |
+| pos_x         | Vertical window position              |
+| pos_y         | Horizontal window position            |
 
 ## Split object
 
